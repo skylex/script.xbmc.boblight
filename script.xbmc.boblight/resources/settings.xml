@@ -10,6 +10,7 @@
     <setting id="sep2" type="sep" />
     <setting id="bobdisableonscreensaver" type="bool" label="32405" default="false" />
     <setting id="bobdisableon3d" type="bool" label="32107" default="false" />
+    <setting id="bobmaxres" type="enum" label="32108" default="0" values="Any|480p|576p|540p|720p|1080p|4K|8K" />
     <setting id="bobdisable" type="bool" label="32104" default="false" />
   </category>
   <category label="32200">

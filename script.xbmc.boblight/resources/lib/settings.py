@@ -60,6 +60,7 @@ class settings():
     self.bobdisableonscreensaver    = __addon__.getSetting("bobdisableonscreensaver") == "true"
     self.bobdisable                 = __addon__.getSetting("bobdisable") == "true"
     self.bobdisableon3d             = __addon__.getSetting("bobdisableon3d") == "true"
+    self.bobmaxres                  = __addon__.getSetting("bobmaxres")
     self.current_option             = ""
     
     if not self.networkaccess:
@@ -392,13 +393,22 @@ class settings():
     self.handleGlobalSettings()
     self.handleStaticBgSettings()
 
-  def handleStereoscopic(self, isStereoscopic):
-    log('settings() - handleStereoscopic(%s) - disableon3d (%s)' % (isStereoscopic, self.bobdisableon3d))
+  def handleStart(self, isStereoscopic, resolution):
+    log('settings() - handleStart(%s, %s) - disableon3d (%s) - maxres (%s)' % (isStereoscopic, resolution, self.bobdisableon3d, self.bobmaxres))
     if self.bobdisableon3d and isStereoscopic:
       log('settings()- disable due to 3d')
       self.bobdisable = True
+    elif self.bobmaxres and self.getNumRes(resolution) > self.bobmaxres:
+      log('settings()- disable due to denied resolution')
+      self.bobdisable = True
     else:
       self.resetBobDisable()
+
+  def getNumRes(self, resolution):
+    mapping = [ ('static', '0'), ('480', '1'), ('576', '2'), ('540', '3'), ('720', '4'), ('1080', '5'), ('4K', '6'), ('8K', '7') ]
+    for k, v in mapping:
+      resolution = resolution.replace(k, v)
+    return resolution
 
   def bob_init(self):
     if self.run_init:

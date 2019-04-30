@@ -198,8 +198,13 @@ def myPlayerChanged(state):
     else:
       ret = "movie"
 
+  if ret == "static":
+    videores = "static"
+  else:
+    videores = xbmc.getInfoLabel("VideoPlayer.VideoResolution")
+
   settings.handleCategory(ret)
-  settings.handleStereoscopic(xbmc.getInfoLabel("System.StereoscopicMode") != "0")
+  settings.handleStart(xbmc.getInfoLabel("System.StereoscopicMode") != "0", videores)
 
 def run_boblight():
   main = Main()
